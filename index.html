@@ -1,37 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Location-Based AR Example</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Pet with WebXR</title>
+    <style>
+        body { margin: 0; }
+        #enter-ar { position: absolute; top: 20px; left: 20px; z-index: 10; }
+    </style>
 </head>
-<body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs='sourceType: webcam;'>
-        <a-entity gps-camera></a-entity>
-    </a-scene>
-    <script>
-        window.onload = () => {
-            // Check if geolocation is supported
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-
-                    // Create a new entity for the AR model
-                    const entity = document.createElement('a-entity');
-                    entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    entity.setAttribute('gltf-model', 'dog_embedded.gltf'); // Update with your model path
-                    entity.setAttribute('scale', '0.5 0.5 0.5');
-
-                    // Append the entity to the scene
-                    document.querySelector('a-scene').appendChild(entity);
-                }, (error) => {
-                    window.alert("Error getting location: ", error);
-                });
-            } else {
-                window.alert("Geolocation is not supported by this browser.");
-            }
-        };
-    </script>
+<body>
+    <button id="enter-ar">Enter Augmented Reality</button>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
