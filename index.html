@@ -8,11 +8,68 @@
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
         <a-marker preset="hiro">
-            <a-entity gltf-model="dog_embedded.gltf" scale="0.5 0.5 0.5" animation-mixer></a-entity>
+            <a-entity id="dog" gltf-model="models/dog_embedded.gltf" scale="0.5 0.5 0.5" animation-mixer></a-entity>
         </a-marker>
         <a-entity camera></a-entity>
         <a-light type="ambient" color="#FFF"></a-light>
         <a-light type="directional" position="-1 1 1" intensity="0.5"></a-light>
     </a-scene>
+
+    <script>
+        const dog = document.querySelector('#dog');
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+
+        // Mouse down event to start dragging
+        dog.addEventListener('mousedown', (event) => {
+            isDragging = true;
+            previousMousePosition = { x: event.clientX, y: event.clientY };
+        });
+
+        // Mouse move event to rotate the model
+        window.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                const deltaX = event.clientX - previousMousePosition.x;
+                const deltaY = event.clientY - previousMousePosition.y;
+
+                // Rotate the model based on mouse movement
+                const rotation = dog.getAttribute('rotation');
+                rotation.y += deltaX * 0.1; // Adjust rotation speed as needed
+                rotation.x -= deltaY * 0.1; // Adjust rotation speed as needed
+                dog.setAttribute('rotation', rotation);
+
+                previousMousePosition = { x: event.clientX, y: event.clientY };
+            }
+        });
+
+        // Mouse up event to stop dragging
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Touch events for mobile devices
+        dog.addEventListener('touchstart', (event) => {
+            isDragging = true;
+            previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+        });
+
+        window.addEventListener('touchmove', (event) => {
+            if (isDragging) {
+                const deltaX = event.touches[0].clientX - previousMousePosition.x;
+                const deltaY = event.touches[0].clientY - previousMousePosition.y;
+
+                const rotation = dog.getAttribute('rotation');
+                rotation.y += deltaX * 0.1; // Adjust rotation speed as needed
+                rotation.x -= deltaY * 0.1; // Adjust rotation speed as needed
+                dog.setAttribute('rotation', rotation);
+
+                previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+            }
+        });
+
+        window.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+    </script>
 </body>
 </html>
