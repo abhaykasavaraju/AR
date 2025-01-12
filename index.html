@@ -8,11 +8,30 @@
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-entity gps-camera></a-entity>
-        <a-entity 
-            gps-entity-place="latitude: 37.7749; longitude: -122.4194" 
-            gltf-model="dog_embedded.gltf" 
-            scale="0.5 0.5 0.5">
-        </a-entity>
     </a-scene>
+    <script>
+        window.onload = () => {
+            // Check if geolocation is supported
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Create a new entity for the AR model
+                    const entity = document.createElement('a-entity');
+                    entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+                    entity.setAttribute('gltf-model', 'dog_embedded.gltf'); // Update with your model path
+                    entity.setAttribute('scale', '0.5 0.5 0.5');
+
+                    // Append the entity to the scene
+                    document.querySelector('a-scene').appendChild(entity);
+                }, (error) => {
+                    console.error("Error getting location: ", error);
+                });
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        };
+    </script>
 </body>
 </html>
