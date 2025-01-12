@@ -18,7 +18,23 @@
         </a-assets>
         
         <!-- Use your GLTF model -->
-        <a-entity gltf-model="#tree" position="0 0 0" scale="2 2 2" look-at="[camera]"></a-entity>
+        <a-entity gltf-model="#tree" position="0 0 0" scale="2 2 2" rotation="0 180 0"></a-entity>
+        <script>
+            // Optional: Update the model's rotation dynamically if needed
+            const model = document.getElementById('tree');
+            const camera = document.querySelector('a-camera');
+
+            function updateModelRotation() {
+                // Make the model face opposite the camera
+                model.object3D.lookAt(camera.object3D.position);
+                model.object3D.rotation.y += Math.PI; // Rotate 180 degrees to face opposite
+            }
+
+            // Update the model's rotation on every frame
+            model.sceneEl.addEventListener('enter-vr', function () {
+                model.sceneEl.addEventListener('render-target-changed', updateModelRotation);
+            });
+        </script>
     </a-scene>
 </body>
 </html>
