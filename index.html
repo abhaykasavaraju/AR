@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markerless AR App</title>
+    <title>Location-Based AR</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <style>
-        body { margin: 0; }
-        #instructions { position: absolute; top: 10px; left: 10px; color: white; }
-    </style>
+    <script src="https://ar-js-org.github.io/AR.js/aframe/build/AR.js"></script>
 </head>
-<body style="margin: 0; overflow: hidden;">
-    <div id="instructions">Move your device to find a flat surface.</div>
+<body>
     <a-scene embedded arjs='sourceType: webcam;'>
-        <a-entity camera></a-entity>
-        <a-box position='0 0.5 0' material='color: blue;'></a-box>
+        <a-entity gps-new-camera></a-entity>
+        <a-entity 
+            gps-entity-place="latitude: 17.4065; longitude: 78.4772;"
+            gltf-model="dog_embedded.gltf" 
+            scale="0.1 0.1 0.1" 
+            rotation="0 180 0">
+        </a-entity>
     </a-scene>
 </body>
 </html>
